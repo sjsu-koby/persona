@@ -10,11 +10,14 @@ var s;
 var changeDirection = 0;
 
 function setup() {
+
+  createCanvas(500, 500);
+  angleMode(DEGREES);
+
   createButton("Start");
   mic = new p5.AudioIn();
   mic.start();
-  createCanvas(500, 500);
-  angleMode(DEGREES);
+  
   changeDirection = false;
   s = 0;
   y = 1;
