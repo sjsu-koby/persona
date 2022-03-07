@@ -8,16 +8,14 @@ var micLevel;
 var y;
 var s;
 var changeDirection = 0;
+var sketchStarted = false;
 
 function setup() {
 
   createCanvas(500, 500);
   angleMode(DEGREES);
 
-  createButton("Start");
-  mic = new p5.AudioIn();
-  mic.start();
-  
+  createButton("Start").mousePressed(startSketch);
   changeDirection = false;
   s = 0;
   y = 1;
@@ -31,36 +29,63 @@ function setup() {
 
   // console.log(clouds);
 }
-function draw() {
-  background(0, 225, 255);
-  frameRate(35);
 
-  for (i = 0; i < clouds.length; i++) {
-    clouds[i].display();
-    clouds[i].move();
-  }
-  if (
-    mouseX > width * 0 &&
-    mouseX < width * 0 &&
-    mouseY > height * 0 &&
-    mouseY < height * 0
-  ) {
-    // console.log("mouse!");
-  } else {
-    rotate(0);
-    translate(0, y);
-    if (y > 10) {
-      changeDirection = true;
-    } else if (y <= 0) {
-      changeDirection = false;
+function startSketch(){
+  mic = new p5.AudioIn();
+  mic.start();
+
+  sketchStarted = true;
+}
+function draw() {
+
+  if(sketchStarted){
+    background(0, 225, 255);
+    frameRate(35);
+    for (i = 0; i < clouds.length; i++) {
+      clouds[i].display();
+      clouds[i].move();
     }
-    if (y >= 0 && changeDirection == false) {
-      y = y + 1;
-    } else if (changeDirection == true) {
-      y = y - 1;
+    if (
+      mouseX > width * 0 &&
+      mouseX < width * 0 &&
+      mouseY > height * 0 &&
+      mouseY < height * 0
+    ) {
+      // console.log("mouse!");
+    } else {
+      rotate(0);
+      translate(0, y);
+      if (y > 10) {
+        changeDirection = true;
+      } else if (y <= 0) {
+        changeDirection = false;
+      }
+      if (y >= 0 && changeDirection == false) {
+        y = y + 1;
+      } else if (changeDirection == true) {
+        y = y - 1;
+      }
     }
-  }
-  if (mic.getLevel() > 0.01){
+    if (mic.getLevel() > 0.01){
+
+      drawHoodie(69, 10, 1);
+
+      drawLeftCatEar();
+
+      drawRightCatEar();
+
+      drawHead();
+
+      drawHair();
+
+      drawFace();
+
+      drawOpenMouth();
+
+      drawEyewhites();
+    }
+
+    else if(mic.getLevel() < 0.01){
 
     drawHoodie(69, 10, 1);
 
@@ -74,50 +99,32 @@ function draw() {
 
     drawFace();
 
-    drawOpenMouth();
+    drawMouth();
 
     drawEyewhites();
+    }
+
+    // console.log("mouse x is:" + mouseX);
+    // console.log("mouse y is:" + mouseY);
+
+    LeftCatEarWag = map(
+      mouseX,
+      width * 0,
+      width * 3.8,
+      width * 0,
+      height * 0.002
+    );
+
+    RightCatEarWag = map(
+      mouseX,
+      width * 0,
+      width * 3.8,
+      width * 0,
+      height * 0.002
+    );
+
+    // MouthMove = map(mic.getLevel(), 0, 1, 0, 40);
   }
-
-  else if(mic.getLevel() < 0.01){
-
-  drawHoodie(69, 10, 1);
-
-  drawLeftCatEar();
-
-  drawRightCatEar();
-
-  drawHead();
-
-  drawHair();
-
-  drawFace();
-
-  drawMouth();
-
-  drawEyewhites();
-  }
-
-  // console.log("mouse x is:" + mouseX);
-  // console.log("mouse y is:" + mouseY);
-
-  LeftCatEarWag = map(
-    mouseX,
-    width * 0,
-    width * 3.8,
-    width * 0,
-    height * 0.002
-  );
-
-  RightCatEarWag = map(
-    mouseX,
-    width * 0,
-    width * 3.8,
-    width * 0,
-    height * 0.002
-  );
-
-  // MouthMove = map(mic.getLevel(), 0, 1, 0, 40);
 }
 
 function drawHoodie(r, g, b) {
