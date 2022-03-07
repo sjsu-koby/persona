@@ -10,6 +10,7 @@ var s;
 var changeDirection = 0;
 
 function setup() {
+  createButton("Start");
   mic = new p5.AudioIn();
   mic.start();
   createCanvas(500, 500);
@@ -57,9 +58,9 @@ function draw() {
     }
   }
   if (mic.getLevel() > 0.01){
-    
+
     drawHoodie(69, 10, 1);
-    
+
     drawLeftCatEar();
 
     drawRightCatEar();
@@ -74,9 +75,9 @@ function draw() {
 
     drawEyewhites();
   }
-  
+
   else if(mic.getLevel() < 0.01){
-    
+
   drawHoodie(69, 10, 1);
 
   drawLeftCatEar();
